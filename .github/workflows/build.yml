@@ -18,21 +18,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x64
+      - name: Configure
+        run: cmake -B build -A x64
 
       - name: Build
-        shell: cmd
-        run: tools\acioemu\build.bat
+        run: cmake --build build --config Release
 
       - name: Package
         shell: pwsh
         run: |
           $out = "o26-tsumtsum"
           New-Item -ItemType Directory -Force "$out/modules", "$out/tools", "$out/server/plugins" | Out-Null
-          Copy-Item tools/acioemu/libacioEx.dll "$out/modules/"
-          Copy-Item tools/acioemu/o26tag.exe, tools/acioemu/o26tag_gui.exe "$out/tools/"
+          Copy-Item build/Release/libacioEx.dll "$out/modules/"
+          Copy-Item build/Release/o26tag.exe, build/Release/o26tag_gui.exe "$out/tools/"
           Copy-Item runtime/launch.bat, README.md "$out/"
           Copy-Item -Recurse "server/plugins/o26@asphyxia" "$out/server/plugins/"
           Compress-Archive -Path "$out/*" -DestinationPath "$out.zip"

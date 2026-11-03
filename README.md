@@ -65,7 +65,7 @@ The first boot may show "game was not terminated normally". Press **F1** to clea
 - A **login tag** is an e-amusement pass while it lies on the reader.
 - Any other card (a blank NTAG, a transit card…) also works as a login card, with an id made from its UID.
 
-Tags carry a 16-byte record in NTAG pages 4..7 (`tools/acioemu/nfc.h`): `"O26F"` + chara/type/variant, or `"O26C"` +
+Tags carry a 16-byte record in NTAG pages 4..7 (`src/common/nfc.h`): `"O26F"` + chara/type/variant, or `"O26C"` +
 an 8-byte card id. `o26tag_gui.exe` writes and reads them: pick a figurine from the list (filter by name or series,
 "English mode" shows whether the English region accepts it), or write a login card, or erase a tag.
 
@@ -97,21 +97,28 @@ figurine series exist (Japanese series 3–5 don't exist outside Japan) and caps
 
 ## Building
 
-`tools\acioemu\build.bat` builds `libacioEx.dll`, `o26tag.exe` and `o26tag_gui.exe` with MSVC (x64, static CRT). It
-finds Visual Studio (with the C++ tools) by itself, or uses the environment of a developer prompt.
+CMake project, MSVC x64 (static CRT, so nothing extra is needed on the target PC):
 
-GitHub Actions (`.github/workflows/build.yml`) builds them on every push, and the run's artifact has the binaries.
-Pushing a tag like `v1.0` publishes a release zip with the DLL, the tag tools, `launch.bat`, the plugin and this
-README.
+```
+cmake -B build -A x64
+cmake --build build --config Release
+```
 
-`tools\acioemu\figure_table.h` (the 463 figurines, their names and series) is generated from `tmac.dll` by
-`tools\gen_figure_table.py <tmac.dll>`.
+`build\Release\` then has `libacioEx.dll`, `o26tag.exe` and `o26tag_gui.exe`. Visual Studio can also open the folder
+directly (File → Open → Folder).
 
-## Other tools
+| Path | |
+|---|---|
+| `src/acioemu/` | `libacioEx.dll` |
+| `src/o26tag/` | `o26tag.exe` and `o26tag_gui.exe` |
+| `src/common/` | shared headers: the NFC tag format (`nfc.h`), the figurine table (`figures.h`, `figure_table.h`) |
+| `scripts/gen_figure_table.py` | regenerates `figure_table.h` from `tmac.dll` (`python scripts/gen_figure_table.py <tmac.dll>`, needs `pefile`) |
+| `server/plugins/o26@asphyxia/` | the Asphyxia CORE plugin |
+| `runtime/launch.bat` | the spice2x launcher for the game folder |
 
-- `tools/o26figure.py <tmac.dll> list | make ...`: list figurines, or build and check figure tag data in Python.
-- `tools/o26win.ps1 shot | tap | scribble`, `tools/o26key.ps1`: test helpers for a running game window.
-- `tools/pedis.py`, `tools/xref.py`: capstone disassembly / RIP-relative xrefs (for when IDA mis-analyses).
+GitHub Actions (`.github/workflows/build.yml`) builds everything on every push, and the run's artifact has the
+binaries. Pushing a tag like `v1.0` publishes a release zip with the DLL, the tag tools, `launch.bat`, the plugin and
+this README.
 
 ## Known issues
 

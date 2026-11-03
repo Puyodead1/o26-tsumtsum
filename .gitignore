@@ -1,4 +1,8 @@
 # build output
+build/
+out/
+.vs/
+CMakeSettings.json
 *.obj
 *.exp
 *.lib

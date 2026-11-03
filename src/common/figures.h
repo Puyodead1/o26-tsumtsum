@@ -1,5 +1,5 @@
 /*
- * The mascot figure table, built in (figure_table.h, generated from tmac.dll by work/tools/gen_figure_table.py),
+ * The mascot figure table, built in (figure_table.h, generated from tmac.dll by scripts/gen_figure_table.py),
  * so o26tag / o26tag_gui need no game files. Shared by both; header-only.
  */
 #pragma once

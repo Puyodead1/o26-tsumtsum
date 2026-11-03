@@ -63,7 +63,7 @@ static void load_card(void) {
  * (sub_1801818C0) accepts data[0..15] when data[8..15] = MD5(key64 || uid || data[0..7])[:8], and data[1..7]
  * unscrambled with an LFSR seeded from uid[6..7] has CRC-8 0. Plain data[3], data[4], data[5] >> 4 pick the figure
  * from tmac's table at 0x1802B8F40 (character, type, variant). figure0.txt: "chara type variant", default Mickey 001.
- * The MD5 key and CRC table are read from the loaded tmac.dll. See work/tools/o26figure.py for the same in Python.
+ * The MD5 key and CRC table are read from the loaded tmac.dll.
  */
 static int FIGURE_ON, FIGURE_QUIET;  /* quiet: already reported since the last reset_to_ready (ISO15693 "stay quiet") */
 static uint8_t FIGURE_UID[8], FIGURE_DATA[28];
