@@ -1,0 +1,50 @@
+# Builds libacioEx.dll, o26tag.exe and o26tag_gui.exe on every push / pull request (download them from the run's
+# artifacts). Pushing a tag like v1.0 also publishes a GitHub Release with a ready-to-use zip.
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Build
+        shell: cmd
+        run: tools\acioemu\build.bat
+
+      - name: Package
+        shell: pwsh
+        run: |
+          $out = "o26-tsumtsum"
+          New-Item -ItemType Directory -Force "$out/modules", "$out/tools", "$out/server/plugins" | Out-Null
+          Copy-Item tools/acioemu/libacioEx.dll "$out/modules/"
+          Copy-Item tools/acioemu/o26tag.exe, tools/acioemu/o26tag_gui.exe "$out/tools/"
+          Copy-Item runtime/launch.bat, README.md "$out/"
+          Copy-Item -Recurse "server/plugins/o26@asphyxia" "$out/server/plugins/"
+          Compress-Archive -Path "$out/*" -DestinationPath "$out.zip"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: o26-tsumtsum
+          path: o26-tsumtsum/
+
+      - name: Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: o26-tsumtsum.zip
+          generate_release_notes: true
