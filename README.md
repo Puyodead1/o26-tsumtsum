@@ -96,8 +96,11 @@ figurine series exist (Japanese series 3–5 don't exist outside Japan) and caps
 ## Building
 
 `tools\acioemu\build.bat` builds `libacioEx.dll`, `o26tag.exe` and `o26tag_gui.exe` with MSVC (x64, static CRT). It
-expects Visual Studio at `C:\Program Files\Microsoft Visual Studio\18\Community`; edit the `vcvars64.bat` path for
-yours.
+finds Visual Studio (with the C++ tools) by itself, or uses the environment of a developer prompt.
+
+GitHub Actions (`.github/workflows/build.yml`) builds them on every push, and the run's artifact has the binaries.
+Pushing a tag like `v1.0` publishes a release zip with the DLL, the tag tools, `launch.bat`, the plugin and this
+README.
 
 `tools\acioemu\figure_table.h` (the 463 figurines, their names and series) is generated from `tmac.dll` by
 `tools\gen_figure_table.py <tmac.dll>`.
