@@ -1,0 +1,13 @@
+# build output
+*.obj
+*.exp
+*.lib
+*.dll
+*.exe
+*.pdb
+
+# runtime files the DLL / game write
+*.log
+card0.txt
+figure0.txt
+capsules.txt
