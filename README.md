@@ -26,6 +26,8 @@ Tools to run **Disney Tsum Tsum** arcade (Konami, model `O26`, 2019) on a normal
 ## Requirements
 
 - The game data: the `O26-001` contents (`modules\`, `prop\`, `data\`, `arkdata\`), **decrypted**.
+  [o26-decrypt](https://github.com/Puyodead1/o26-decrypt) does that from the cabinet's game drive and its license
+  dongle.
 - [spice2x](https://github.com/spice2x/spice2x.github.io) (`spice64.exe`) in the game folder.
 - Asphyxia CORE 1.70b.
 - Optional: an ACS ACR122U (or any PC/SC NFC reader that passes through the `FF CA` / `FF B0` / `FF D6` APDUs) and
