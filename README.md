@@ -104,8 +104,7 @@ cmake -B build -A x64
 cmake --build build --config Release
 ```
 
-`build\Release\` then has `libacioEx.dll`, `o26tag.exe` and `o26tag_gui.exe`. Visual Studio can also open the folder
-directly (File → Open → Folder).
+`build\Release\` then has `libacioEx.dll`, `o26tag.exe` and `o26tag_gui.exe`.
 
 | Path | |
 |---|---|
@@ -115,10 +114,6 @@ directly (File → Open → Folder).
 | `scripts/gen_figure_table.py` | regenerates `figure_table.h` from `tmac.dll` (`python scripts/gen_figure_table.py <tmac.dll>`, needs `pefile`) |
 | `server/plugins/o26@asphyxia/` | the Asphyxia CORE plugin |
 | `runtime/launch.bat` | the spice2x launcher for the game folder |
-
-GitHub Actions (`.github/workflows/build.yml`) builds everything on every push, and the run's artifact has the
-binaries. Pushing a tag like `v1.0` publishes a release zip with the DLL, the tag tools, `launch.bat`, the plugin and
-this README.
 
 ## Known issues
 
