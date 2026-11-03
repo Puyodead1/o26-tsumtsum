@@ -86,6 +86,8 @@ cmake -B build -A x64
 cmake --build build --config Release
 ```
 
+Internals (formats, protocols, addresses): [docs/TECHNICAL.md](docs/TECHNICAL.md).
+
 ## Known issues
 
 - On the name-entry screen the bubbles stay blank while you type. The name is still saved correctly.
